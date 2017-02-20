@@ -1,1 +1,82 @@
 
+<!DOCTYPE html>
+<html> 
+    <!--A tribute to 21February-->
+    <head> 
+        <style> 
+            
+           
+            *{ 
+                margin: 0; 
+                padding: 0; 
+            } 
+            
+            body {background: black;} 
+            canvas {display:block;} 
+        
+        </style> 
+    </head> 
+    
+    
+    <body> 
+    
+        <canvas id="aumio"></canvas> 
+        
+        <script> 
+        
+        var aumio = document.getElementById("aumio"); 
+        var deba = aumio.getContext("2d"); 
+
+        //making the canvas full screen 
+        aumio.height = window.innerHeight; 
+        aumio.width = window.innerWidth; 
+
+        //bangla characters - taken from the unicode charset 
+        var matrix = "কখগঘঙচছজঝঞটঠডঢনতথদধণপফবভমযরলবশষহক্ষংঃ১২৩৪৫৬৭৮৯০@#$%^&*()*&^%"; 
+        //converting the string into an array of single characters 
+        matrix = matrix.split(""); 
+
+        var font_size = 15; 
+        var columns = aumio.width/font_size; //number of columns for the rain 
+        //an array of drops - one per column 
+        var drops = []; 
+        //x below is the x coordinate 
+        //1 = y co-ordinate of the drop(same for every drop initially) 
+        for(var x = 0; x < columns; x++) 
+            drops[x] = 1; 
+
+        //drawing the characters 
+        function draw() 
+        { 
+            //Black BG for the canvas 
+            //translucent BG to show trail 
+            deba.fillStyle = "rgba(0, 0, 0, 0.04)"; 
+            deba.fillRect(0, 0, aumio.width, aumio.height); 
+
+            deba.fillStyle = "#F00"; //green text 
+            deba.font = font_size + "px arial"; 
+            //looping over drops 
+            for(var i = 0; i < drops.length; i++) 
+            { 
+                //a random chinese character to print 
+                var text = matrix[Math.floor(Math.random()*matrix.length)]; 
+                //x = i*font_size, y = value of drops[i]*font_size 
+                deba.fillText(text, i*font_size, drops[i]*font_size); 
+
+                //sending the drop back to the top randomly after it has crossed the screen 
+                //adding a randomness to the reset to make the drops scattered on the Y axis 
+                if(drops[i]*font_size > aumio.height && Math.random() > 0.975) 
+                    drops[i] = 0; 
+
+                //incrementing Y coordinate 
+                drops[i]++; 
+                //design and developed by Fahad, use it without any hesitation and feel free to contact for custom design @ fullvollume@gmail.com
+            } 
+        } 
+
+        setInterval(draw, 35); 
+
+        
+        </script> 
+    </body> 
+</html>
